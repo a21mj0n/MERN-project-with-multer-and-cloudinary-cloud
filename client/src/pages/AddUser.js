@@ -34,7 +34,7 @@ const AddUser = () => {
       formData.append('card_number', data.card_number);
       formData.append('address', data.address);
 
-      const res = await fetch(`http://localhost:5000/user`, {
+      const res = await fetch(`https://paymart-app.herokuapp.com/user`, {
         method: 'POST',
         body: formData,
       });
