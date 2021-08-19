@@ -3,17 +3,22 @@ const cloudinary = require('../utils/cloudinary');
 const upload = require('../utils/multer');
 const User = require('../model/user');
 
-router.post('/', upload.single('image'), async (req, res) => {
+const photoFields = upload.fields([
+  { name: 'image', maxCount: 1 },
+  { name: 'address', maxCount: 1 },
+]);
+
+router.post('/', photoFields, async (req, res) => {
   try {
-    console.log(req);
     // Upload image to cloudinary
-    const result = await cloudinary.uploader.upload(req.file.path);
+    const result = await cloudinary.uploader.upload(req.files['image'][0].path);
+    const address = await cloudinary.uploader.upload(req.files['address'][0].path);
 
     // Create new user
     let user = new User({
       phone: req.body.phone,
       avatar: result.secure_url,
-      // address: result.secure_url,
+      address: address.secure_url,
       filial_id: req.body.filial_id,
       card_number: req.body.card_number,
       cloudinary_id: result.public_id,
@@ -37,15 +42,14 @@ router.get('/', async (req, res) => {
 
 router.get('/checked/:id', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    let user = await User.findById(req.params.id);
 
     if (user) {
 
       user.isChecked = req.query.checked;
 
       await user.save();
-
-      return res.json({ data: user });
+      return res.status(200).send({ user });
 
     } else {
       return res.json({ message: 'User not found' });

@@ -10,13 +10,21 @@ const AddUser = () => {
     image: '',
     card_number: '',
     filial_id: '',
-    // address: "",
+    address: '',
   });
+
   const handleChange = (name) => (e) => {
     const value = name === 'image' ? e.target.files[0] : e.target.value;
-    // const address = name === "address" ? e.target.files[0] : e.target.value;
-    setData({ ...data, [name]: value /*'address': address*/ });
+
+    setData({ ...data, [name]: value });
   };
+
+  const handleAddress = (e) => {
+    const address = e.target.files[0];
+
+    setData({ ...data, 'address': address });
+  };
+
   const handleSubmit = async () => {
     try {
       let formData = new FormData();
@@ -24,7 +32,7 @@ const AddUser = () => {
       formData.append('phone', data.phone);
       formData.append('filial_id', data.filial_id);
       formData.append('card_number', data.card_number);
-      // formData.append("address", data.address);
+      formData.append('address', data.address);
 
       const res = await fetch(`http://localhost:5000/user`, {
         method: 'POST',
@@ -57,6 +65,15 @@ const AddUser = () => {
           accept="image/*"
           name="image"
           onChange={handleChange('image')}
+        />
+      </div>
+      <div className="mb-3">
+        <input
+          className="form-control"
+          type="file"
+          accept="image/*"
+          name="address"
+          onChange={handleAddress}
         />
       </div>
       <div className="mb-3">

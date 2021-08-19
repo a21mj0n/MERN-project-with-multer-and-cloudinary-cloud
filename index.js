@@ -1,8 +1,9 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const cors = require("cors");
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const path = require('path');
 
 dotenv.config();
 
@@ -14,23 +15,28 @@ mongoose
     useFindAndModify: false,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("mongoDB is connected"))
+  .then(() => console.log('mongoDB is connected'))
   .catch((err) => console.log(err));
 
 // Middleware
 app.use(express.json());
 app.use(cors());
 
-// Step 1:
-app.use(express.static(path.resolve(__dirname, "./client/build")));
-// Step 2:
-app.get("*", function (request, response) {
-  response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-});
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+}
+
+// // Step 1:
+// app.use(express.static(path.resolve(__dirname, './client/build')));
+// // Step 2:
+// app.get('*', function (request, response) {
+//   response.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
+// });
 
 // Route
-app.use("/user", require("./routes/user"));
+app.use('/user', require('./routes/user'));
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log("Server is running"));
+app.listen(PORT, () => console.log('Server is running'));

@@ -30,10 +30,11 @@ const Home = () => {
   const checked = async (id, isChecked) => {
     try {
 
-      const res = await fetch(`http://localhost:5000/user/checked/${id}?checked=${isChecked}`, {
+      const response = await fetch(`http://localhost:5000/user/checked/${id}?checked=${isChecked}`, {
         method: 'GET',
       });
-      if (res.ok) {
+
+      if (response.ok) {
         window.location.reload();
       }
     } catch (e) {
@@ -46,7 +47,8 @@ const Home = () => {
       <thead>
       <tr>
         <th scope="col">No</th>
-        <th scope="col">Photo</th>
+        <th scope="col">Passport</th>
+        <th scope="col">Address</th>
         <th scope="col">Phone</th>
         <th scope="col">Filial ID</th>
         <th scope="col">Card Number</th>
@@ -55,10 +57,13 @@ const Home = () => {
       </thead>
       <tbody>
       {users?.map((user, index) => (
-        <tr>
+        <tr key={index}>
           <th scope="row">{index + 1}</th>
           <td>
             <img src={user.avatar} alt="" width={80} />
+          </td>
+          <td>
+            <img src={user.address} alt="" width={80} />
           </td>
           <td>{user.phone || '-'}</td>
           <td>{user.filial_id || '-'}</td>
