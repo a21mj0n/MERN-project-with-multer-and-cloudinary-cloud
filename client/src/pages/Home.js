@@ -5,7 +5,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const res = await fetch(`http://localhost:5000/user`);
+      const res = await fetch(`https://paymart-app.herokuapp.com/user`);
       const data = await res.json();
       setUsers(data);
     };
@@ -15,7 +15,7 @@ const Home = () => {
   // eslint-disable-next-line no-unused-vars
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/user/${id}`, {
+      const res = await fetch(`https://paymart-app.herokuapp.com/user/${id}`, {
         method: 'DELETE',
       });
       if (res.ok) {
@@ -30,7 +30,7 @@ const Home = () => {
   const checked = async (id, isChecked) => {
     try {
 
-      const response = await fetch(`http://localhost:5000/user/checked/${id}?checked=${isChecked}`, {
+      const response = await fetch(`https://paymart-app.herokuapp.com/user/checked/${id}?checked=${isChecked}`, {
         method: 'GET',
       });
 

@@ -39,7 +39,7 @@ const AddUser = () => {
         body: formData,
       });
       if (res.ok) {
-        setData({ phone: '', image: '', card_number: '', filial_id: '' });
+        setData({ phone: '', image: '', card_number: '', filial_id: '', address: '' });
       }
     } catch (error) {
       console.log(error);
