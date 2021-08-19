@@ -40,6 +40,7 @@ const AddUser = () => {
       });
       if (res.ok) {
         setData({ phone: '', image: '', card_number: '', filial_id: '', address: '' });
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);
@@ -52,7 +53,7 @@ const AddUser = () => {
         <input
           className="form-control"
           placeholder="Phone"
-          type="tel"
+          type="number"
           name="phone"
           value={data.phone}
           onChange={handleChange('phone')}
