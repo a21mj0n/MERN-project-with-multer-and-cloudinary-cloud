@@ -52,6 +52,7 @@ const Home = () => {
         <th scope="col">Phone</th>
         <th scope="col">Filial ID</th>
         <th scope="col">Card Number</th>
+        <th scope="col">Card Exp</th>
         <th scope="col">Action</th>
       </tr>
       </thead>
@@ -68,6 +69,7 @@ const Home = () => {
           <td>{user.phone || '-'}</td>
           <td>{user.filial_id || '-'}</td>
           <td>{user.card_number || '-'}</td>
+          <td>{user.card_exp || '-'}</td>
           <td>
             <input checked={user.isChecked} type="checkbox" style={{ width: '30px' }}
                    onChange={() => checked(user._id, !user.isChecked)} />

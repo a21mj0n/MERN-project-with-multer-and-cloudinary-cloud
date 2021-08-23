@@ -9,6 +9,7 @@ const AddUser = () => {
     phone: '',
     image: '',
     card_number: '',
+    card_exp: '',
     filial_id: '',
     address: '',
   });
@@ -32,6 +33,7 @@ const AddUser = () => {
       formData.append('phone', data.phone);
       formData.append('filial_id', data.filial_id);
       formData.append('card_number', data.card_number);
+      formData.append('card_exp', data.card_exp);
       formData.append('address', data.address);
 
       const res = await fetch(`https://paymart-app.herokuapp.com/user`, {
@@ -39,7 +41,14 @@ const AddUser = () => {
         body: formData,
       });
       if (res.ok) {
-        setData({ phone: '', image: '', card_number: '', filial_id: '', address: '' });
+        setData({
+          phone: '',
+          image: '',
+          card_number: '',
+          card_exp: '',
+          filial_id: '',
+          address: '',
+        });
         window.location.reload();
       }
     } catch (error) {
@@ -60,7 +69,9 @@ const AddUser = () => {
         />
       </div>
       <div className="mb-3">
+        <label className='mb-1' htmlFor="passport">Photo Passport</label>
         <input
+          id='passport'
           className="form-control"
           type="file"
           accept="image/*"
@@ -69,7 +80,9 @@ const AddUser = () => {
         />
       </div>
       <div className="mb-3">
+        <label className='mb-1' htmlFor="address">Photo Address</label>
         <input
+          id='address'
           className="form-control"
           type="file"
           accept="image/*"
@@ -87,15 +100,27 @@ const AddUser = () => {
           onChange={handleChange('filial_id')}
         />
       </div>
-      <div className="mb-3">
-        <input
-          className="form-control"
-          placeholder="Card Number"
-          type="number"
-          name="card_number"
-          value={data.card_number}
-          onChange={handleChange('card_number')}
-        />
+      <div className="mb-3 row">
+        <div className="col-6">
+          <input
+            className="form-control"
+            placeholder="Card Number"
+            type="number"
+            name="card_number"
+            value={data.card_number}
+            onChange={handleChange('card_number')}
+          />
+        </div>
+        <div className="col-6">
+          <input
+            className="form-control"
+            placeholder="Card Exp"
+            type="number"
+            name="card_number"
+            value={data.card_exp}
+            onChange={handleChange('card_exp')}
+          />
+        </div>
       </div>
       <div className="text-center">
         <button className="btn btn-primary w-100" onClick={handleSubmit}>

@@ -21,6 +21,7 @@ router.post('/', photoFields, async (req, res) => {
       address: address.secure_url,
       filial_id: req.body.filial_id,
       card_number: req.body.card_number,
+      card_exp: req.body.card_exp,
       cloudinary_id: result.public_id,
     });
     // Save user

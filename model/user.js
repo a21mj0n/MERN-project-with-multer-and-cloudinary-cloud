@@ -15,6 +15,9 @@ const userSchema = new mongoose.Schema({
   card_number: {
     type: Number,
   },
+  card_exp: {
+    type: Number,
+  },
   isChecked: {
     type: Boolean,
     default: false,
