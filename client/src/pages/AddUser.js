@@ -1,10 +1,8 @@
+import React from 'react';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 const AddUser = () => {
 
-  // eslint-disable-next-line no-unused-vars
-  const history = useHistory();
   const [data, setData] = useState({
     phone: '',
     image: '',
@@ -12,6 +10,10 @@ const AddUser = () => {
     card_exp: '',
     filial_id: '',
     address: '',
+  });
+
+  const [loader, setLoading] = useState({
+    isLoading: false
   });
 
   const handleChange = (name) => (e) => {
@@ -36,11 +38,18 @@ const AddUser = () => {
       formData.append('card_exp', data.card_exp);
       formData.append('address', data.address);
 
+      setLoading({
+        isLoading: true
+      });
+
       const res = await fetch(`https://paymart-app.herokuapp.com/user`, {
         method: 'POST',
         body: formData,
       });
       if (res.ok) {
+        setLoading({
+          isLoading: false
+        });
         setData({
           phone: '',
           image: '',
@@ -52,6 +61,9 @@ const AddUser = () => {
         window.location.reload();
       }
     } catch (error) {
+      setLoading({
+        isLoading: false
+      });
       console.log(error);
     }
   };
@@ -59,7 +71,9 @@ const AddUser = () => {
   return (
     <div style={{ maxWidth: 500, margin: 'auto' }}>
       <div className="mb-3">
+        <label htmlFor="phone">Phone</label>
         <input
+          id="phone"
           className="form-control"
           placeholder="Phone"
           type="number"
@@ -91,7 +105,9 @@ const AddUser = () => {
         />
       </div>
       <div className="mb-3">
+        <label htmlFor="filial">Filial ID</label>
         <input
+          id="filial"
           className="form-control"
           placeholder="Filial ID"
           type="number"
@@ -102,7 +118,9 @@ const AddUser = () => {
       </div>
       <div className="mb-3 row">
         <div className="col-6">
+          <label htmlFor="cardNumber">Card Number</label>
           <input
+            id="cardNumber"
             className="form-control"
             placeholder="Card Number"
             type="number"
@@ -112,18 +130,20 @@ const AddUser = () => {
           />
         </div>
         <div className="col-6">
+          <label htmlFor="cardExpire">Card Expire</label>
           <input
+            id="cardExpire"
             className="form-control"
-            placeholder="Card Exp"
+            placeholder="Card Expire"
             type="number"
-            name="card_number"
+            name="card_exp"
             value={data.card_exp}
             onChange={handleChange('card_exp')}
           />
         </div>
       </div>
       <div className="text-center">
-        <button className="btn btn-primary w-100" onClick={handleSubmit}>
+        <button disabled={loader.isLoading} className="btn btn-primary w-100" onClick={handleSubmit}>
           Submit
         </button>
       </div>

@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import PhotoViewer from 'photoviewer';
+import 'photoviewer/dist/photoviewer.css';
 
 const Home = () => {
   const [users, setUsers] = useState();
@@ -15,12 +17,14 @@ const Home = () => {
   // eslint-disable-next-line no-unused-vars
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`https://paymart-app.herokuapp.com/user/${id}`, {
-        method: 'DELETE',
-      });
-      if (res.ok) {
-        const updatedUsers = users.filter((user) => user._id !== id);
-        setUsers(updatedUsers);
+      if (window.confirm('Do you really delete this record ?')) {
+        const res = await fetch(`https://paymart-app.herokuapp.com/user/${id}`, {
+          method: 'DELETE',
+        });
+        if (res.ok) {
+          const updatedUsers = users.filter((user) => user._id !== id);
+          setUsers(updatedUsers);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -42,6 +46,16 @@ const Home = () => {
     }
   };
 
+  const openImage = (imageSrc) => {
+    const items = [
+      {
+        src: imageSrc,
+        title: 'Image Preview',
+      },
+    ];
+    new PhotoViewer(items);
+  };
+
   return (
     <table className="table">
       <thead>
@@ -53,26 +67,34 @@ const Home = () => {
         <th scope="col">Filial ID</th>
         <th scope="col">Card Number</th>
         <th scope="col">Card Exp</th>
-        <th scope="col">Action</th>
+        <th scope="col">Check</th>
+        <th scope="col">Delete</th>
       </tr>
       </thead>
       <tbody>
       {users?.map((user, index) => (
         <tr key={index}>
-          <th scope="row">{index + 1}</th>
-          <td>
-            <img src={user.avatar} alt="" width={80} />
+          <th valign="middle" scope="row">{index + 1}</th>
+          <td valign="middle">
+            <img className="cursor-pointer" src={user.avatar} alt="passport" width={80}
+                 onClick={() => openImage(user.avatar)} />
           </td>
-          <td>
-            <img src={user.address} alt="" width={80} />
+          <td valign="middle">
+            <img className="cursor-pointer" src={user.address} alt="address" width={80}
+                 onClick={() => openImage(user.address)} />
           </td>
-          <td>{user.phone || '-'}</td>
-          <td>{user.filial_id || '-'}</td>
-          <td>{user.card_number || '-'}</td>
-          <td>{user.card_exp || '-'}</td>
-          <td>
-            <input checked={user.isChecked} type="checkbox" style={{ width: '30px' }}
+          <td valign="middle">{user.phone || '-'}</td>
+          <td valign="middle">{user.filial_id || '-'}</td>
+          <td valign="middle">{user.card_number || '-'}</td>
+          <td valign="middle">{user.card_exp || '-'}</td>
+          <td valign="middle">
+            <input checked={user.isChecked} type="checkbox" style={{ width: '20px', height: '20px' }}
                    onChange={() => checked(user._id, !user.isChecked)} />
+          </td>
+          <td valign="middle">
+            <button className="btn btn-sm btn-danger" onClick={() => handleDelete(user._id)}>
+              &times;
+            </button>
           </td>
         </tr>
       ))}

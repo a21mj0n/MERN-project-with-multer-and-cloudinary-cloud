@@ -31,6 +31,7 @@ app.use(cors());
 // Route
 app.use('/user', require('./routes/user'));
 
+// Static files
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 
