@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import PhotoViewer from 'photoviewer';
 import 'photoviewer/dist/photoviewer.css';
 
-const Home = () => {
+const List = () => {
   const [users, setUsers] = useState();
 
   useEffect(() => {
@@ -104,4 +104,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default List;

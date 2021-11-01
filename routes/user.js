@@ -34,8 +34,15 @@ router.post('/', photoFields, async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    let user = await User.find();
-    res.json(user);
+    const user = await User.find();
+    const cryptedUserData = user.map(user => {
+      return {
+        ...user,
+        card_number: window.btoa(user.card_number),
+        card_exp: window.btoa(user.card_exp),
+      }
+    });
+    res.json(cryptedUserData);
   } catch (err) {
     console.log(err);
   }
