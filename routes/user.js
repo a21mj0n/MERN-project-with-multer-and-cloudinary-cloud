@@ -35,14 +35,14 @@ router.post('/', photoFields, async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const user = await User.find();
-    const cryptedUserData = user.map(user => {
-      return {
-        ...user,
-        card_number: window.btoa(user.card_number),
-        card_exp: window.btoa(user.card_exp),
-      }
-    });
-    res.json(cryptedUserData);
+    // const cryptedUserData = user.map(user => {
+    //   return {
+    //     ...user,
+    //     card_number: window.btoa(user.card_number),
+    //     card_exp: window.btoa(user.card_exp),
+    //   }
+    // });
+    res.json(user);
   } catch (err) {
     console.log(err);
   }
